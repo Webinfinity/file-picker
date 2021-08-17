@@ -234,6 +234,17 @@ config.update = function update(data) {
  * Get user_data
  */
 export async function retrieveConfig() {
+  const config_data = {
+    user_data: {
+      logo_url: null,
+      name: "WI-Development",
+      trusted: false
+    }
+  };
+
+  config.user_data((config_data && config_data.user_data) || {});
+
+  return;
   const query_params = { app_id: config.app_id };
   if (config.account_key || config.retrieve_token()) {
     // Only do origin check if we need to.
@@ -341,8 +352,71 @@ const serviceOrderCompare = getServiceOrderCompare();
  * @return {Promise}
  */
 export const initServices = () => new Promise((resolve) => {
+  //const servicesUrl = `${config.base_url}/${config.api_version}/public/services`;
+  const servicesUrl = `${config.base_url}/services`;
+
   $.get(
-    `${config.base_url}/${config.api_version}/public/services`,
+    servicesUrl,
+    {
+      apis: 'storage',
+      app_id: config.app_id,
+      retrieve_properties: true,
+    },
+    (serviceData) => {
+      if (!config.services) {
+        config.services = ['file_store'];
+      } else if (config.services.indexOf('all') > -1) {
+        config.services = ['file_store', 'object_store', 'construction'];
+      }
+
+      ko.utils.arrayForEach(serviceData, (serviceDatum) => {
+        // eslint-disable-next-line no-use-before-define
+        const serviceCategory = getServiceCategory(serviceDatum);
+        let localeName = localization.formatAndWrapMessage(
+          `serviceNames/${serviceDatum.id}`,
+        );
+        if (localeName.indexOf('/') > -1) {
+          localeName = serviceDatum.name;
+        }
+
+        const service = {
+          id: serviceDatum.id,
+          name: localeName,
+          logo: serviceDatum.logo_url || (
+            `${config.static_path}/webapp/sources/${serviceDatum.id}.png`
+          ),
+          category: serviceCategory,
+          visible: false,
+        };
+
+        if (config.services.indexOf(serviceDatum.id) > -1
+            || config.services.indexOf(serviceCategory) > -1) {
+          service.visible = true;
+        }
+        config.all_services.push(service);
+      });
+
+      config.all_services.sort(serviceOrderCompare);
+
+      // eslint-disable-next-line no-use-before-define
+      config.visible_computer.subscribe(toggleComputer);
+      // eslint-disable-next-line no-use-before-define
+      toggleComputer(config.visible_computer());
+
+      function getServiceCategory(service) {
+        return 'file_store';
+      }
+    },
+  ).fail((xhr, status, err) => {
+    logger.error('Failed to initialize services: ', status, err, xhr);
+  }).always(() => {
+    // always resolve even if the request fails.
+    resolve();
+  });
+
+  return;
+  $.get(
+    servicesUrl,
     {
       apis: 'storage',
       app_id: config.app_id,
