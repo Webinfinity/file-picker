@@ -359,8 +359,7 @@ export const initServices = () => new Promise((resolve) => {
     servicesUrl,
     {
       apis: 'storage',
-      app_id: config.app_id,
-      retrieve_properties: true,
+      app_id: config.app_id
     },
     (serviceData) => {
       if (!config.services) {
@@ -382,7 +381,7 @@ export const initServices = () => new Promise((resolve) => {
         const service = {
           id: serviceDatum.id,
           name: localeName,
-          logo: serviceDatum.logo_url || (
+          logo: serviceDatum.logoUrl || (
             `${config.static_path}/webapp/sources/${serviceDatum.id}.png`
           ),
           category: serviceCategory,
@@ -568,7 +567,7 @@ function toggleComputer(computerEnabled) {
  * Create API server URLs
  */
 config.getAccountUrl = function getAccountUrl(api, path) {
-  let url = `${config.base_url}/${config.api_version}/accounts/me/`;
+  let url = `${config.base_url}/accounts/me/`;
 
   if (config.api_version === 'v0') {
     api = ''; // eslint-disable-line no-param-reassign

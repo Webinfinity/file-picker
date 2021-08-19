@@ -141,7 +141,7 @@ window.addEventListener('message', (message) => {
 
 // Display popup window
 function authenticate(service, oauthParams, callback) {
-  let url = `${config.base_url}/${config.api_version}/oauth/`;
+  let url = `${config.base_url}/oauth/authorize/`;
   const requestId = util.randomID();
   const queryParams = getEffectiveOauthParams(requestId, service, oauthParams);
   const h = 500;

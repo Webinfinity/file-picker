@@ -77,7 +77,7 @@
             .ie-fix-wrap
               div(data-bind='text: name')
           td.ftable__cell-md.sm-hidden(data-bind='translate: friendlySize && { html: friendlySize }')
-          td.ftable__cell-md.sm-hidden(data-bind='formatDate: modified || created || null')
+          td.ftable__cell-md.sm-hidden(data-bind='formatDate: $data.modified || $data.created || null')
         // /ko
         // /ko
 
