@@ -172,6 +172,11 @@ function authenticate(service, oauthParams, callback) {
     options.left = (window.screen.width - options.width) / 2;
   }
 
+  // queryParams.form_data = JSON.stringify({
+  //   username: '***',
+  //   domain: 'extremenetworks.kapost.com'
+  // });
+  
   // params
   const params = [
     `location=${options.location ? 'yes' : 'no'}`,

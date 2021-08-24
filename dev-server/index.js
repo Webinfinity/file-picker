@@ -38,6 +38,7 @@ import 'regenerator-runtime/runtime';
       services: ['all'],
       types: ['all'],
       display_backdrop: true,
+      copy_to_upload_location: 'sync'
       // enable options below to test localization
       // locale: 'zh',
       // translations: window.translations,
