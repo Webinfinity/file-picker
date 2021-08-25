@@ -111,7 +111,9 @@ if (!util.supportsCORS() || !util.supportsPopupPostMessage()) {
  */
 window.addEventListener('message', (message) => {
   const ns = 'kloudless:';
-  if (message.origin !== config.base_url) {
+  //TODO: is this ssecurity feature? is the change OK?
+  //if (message.origin !== config.base_url) {
+  if (config.base_url.indexOf(message.origin) !== 0) {
     return;
   }
   if (message.data.indexOf(ns) !== 0) {
@@ -172,10 +174,10 @@ function authenticate(service, oauthParams, callback) {
     options.left = (window.screen.width - options.width) / 2;
   }
 
-  // queryParams.form_data = JSON.stringify({
-  //   username: '***',
-  //   domain: 'extremenetworks.kapost.com'
-  // });
+  queryParams.form_data = JSON.stringify({
+    username: '***',
+    domain: 'extremenetworks.kapost.com'
+  });
   
   // params
   const params = [
