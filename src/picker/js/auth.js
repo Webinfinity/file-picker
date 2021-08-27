@@ -174,10 +174,10 @@ function authenticate(service, oauthParams, callback) {
     options.left = (window.screen.width - options.width) / 2;
   }
 
-  queryParams.form_data = JSON.stringify({
-    username: '***',
-    domain: 'extremenetworks.kapost.com'
-  });
+  // queryParams.form_data = JSON.stringify({
+  //   username: 'qweqwe',
+  //   domain: 'qweqwe'
+  // });
   
   // params
   const params = [

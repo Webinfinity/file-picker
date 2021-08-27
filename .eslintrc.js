@@ -42,5 +42,6 @@ module.exports = {
     'operator-linebreak': 'off',
     // allow prefix private functions with underscore
     'no-underscore-dangle': 'off',
+    "linebreak-style": ["warn", "windows"]
   },
 };

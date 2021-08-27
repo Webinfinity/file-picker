@@ -387,8 +387,9 @@ const FilePicker = function () {
         selections.push(rest);
       }
 
-      const accountId = this.manager.active().filesystem().id;
-      const authKey = this.manager.active().filesystem().key;
+      const activeAccount = this.manager.active();
+      const accountId = activeAccount.filesystem().id;
+      const authKey = activeAccount.filesystem().key;
 
       let requestCountSuccess = 0;
       let requestCountError = 0;
@@ -496,6 +497,8 @@ const FilePicker = function () {
         }, POLLING_INTERVAL);
       };
 
+      const activeService = services()[activeAccount.service];
+
       const moveToDrop = function (type, selection_index) {
         const copyMode = config.copy_to_upload_location();
         const isTask = copyMode === 'sync' || copyMode === 'async';
@@ -553,7 +556,13 @@ const FilePicker = function () {
             // polling for the result (file metadata)
             pollTask(res.id, {
               onComplete(metadata) {
-                selections[selection_index] = metadata;
+                selections[selection_index] = {
+                  metadata,
+                  serviceInfo: {
+                    name: activeService.name
+                  }
+                };
+
                 selectionComplete(true, selection_index);
               },
               onError(xhr, status, err) {
