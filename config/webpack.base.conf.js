@@ -24,6 +24,24 @@ function getStyleLoaders(fileType, viewType) {
       plugins: isDevelopment ? [AutoPrefixer()] : [AutoPrefixer(), CssNano()],
     },
   };
+
+  const lessLoader = {
+      loader: 'less-loader',
+      options: {
+          plugins: [
+              {
+                  install: (lessObj, pluginManager) => {
+                      pluginManager.addPreProcessor({
+                          process: function (lessCode) {
+                              return lessCode.replace('__icons_base__', process.env.PICKER_URL.replace('/index.html', '') + '/icon');
+                          }
+                      }, 2000); // 2000 sets priority to come after less imports, per code comments
+                  }
+              }
+          ]
+      }
+  };
+
   if (viewType === 'picker') {
     result.push(miniCssExtractLoader);
   } else if (viewType === 'loader') {
@@ -31,7 +49,7 @@ function getStyleLoaders(fileType, viewType) {
   }
   result.push('css-loader', postCssLoader);
   if (fileType === 'less') {
-    result.push('less-loader');
+      result.push(lessLoader);
   }
   return result;
 }
