@@ -39,6 +39,7 @@ const middleware = webpackDevMiddleware(compiler, {
   logTime: true,
   stats: 'minimal',
   publicPath: webpackConfigs[0].output.publicPath,
+  //writeToDisk: true,
 });
 app.use(middleware);
 app.use(webpackHotMiddleware(compiler, {
