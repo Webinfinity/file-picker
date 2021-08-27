@@ -49,8 +49,8 @@ function Account(data, account_callback, filesystem_callback) {
 
     // Important account attributes.
     self.account = data.account;
-    self.account_name = data.account_name;
-    self.service = data.service;
+    self.account_name = data.account_name || data.name;
+    self.service = data.service || data.serviceId;
 
     // Extra metadata -- don't rely on this being here.
     self.active = data.active;
