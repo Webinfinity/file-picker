@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  variables:
+    BASE_URL: "https://apigw.dev.webinfinity.com/filesync"
+    PICKER_URL: "https://cdn.dev.webinfinity.com/filesync/picker/index.html"
+
+phases:
+  install:
+    runtime-versions:
+      node: 14
+  pre_build:
+    commands:
+      - echo Install dependencies on `date`
+      - npm ci
+      - npm run install-deps
+  build:
+    commands:
+      - echo Build started on `date`
+      - BASE_URL=$BASE_URL PICKER_URL=$PICKER_URL npm run build
+  post_build:
+    commands:
+      - echo Deploy started on `date`
+
+cache:
+  paths:
+    - "./node_modules/**/*"
+    - "./bower_components/**/*"
