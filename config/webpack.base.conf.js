@@ -33,7 +33,10 @@ function getStyleLoaders(fileType, viewType) {
                   install: (lessObj, pluginManager) => {
                       pluginManager.addPreProcessor({
                           process: function (lessCode) {
-                              return lessCode.replace('__icons_base__', process.env.PICKER_URL.replace('/index.html', '') + '/icon');
+                              const pickerFolderUrl = process.env.PICKER_URL.replace('/index.html', '');
+                              return lessCode
+                                  .replace('__icons_base__', pickerFolderUrl + '/icon')
+                                  .replace('__fonts_base__', pickerFolderUrl + '/font');
                           }
                       }, 2000); // 2000 sets priority to come after less imports, per code comments
                   }
