@@ -3,7 +3,8 @@
  */
 @font_family: Lato, sans-serif;
 
-@font_face_path: 'https://kloudless-cors.s3.amazonaws.com/font/lato-v16-latin-regular.woff';
+@font_base: '__fonts_base__'; //it will be replaced
+@font_face_path: '@{font_base}/lato-v16-latin-regular.woff';
 @font_face_name: 'Lato';
 @font_face_format: 'woff';
 
@@ -62,7 +63,7 @@
 /*
  * Icon
  */
-@icon_base: 'https://kloudless-static-assets.s3.amazonaws.com/common/explorer/icon';
+@icon_base: '__icons_base__';//it will be replaced
 @icon_loading: "@{icon_base}/loading.svg";
 @icon_back: "@{icon_base}/back.svg";
 @icon_back_hovered: "@{icon_base}/back-hovered.svg";

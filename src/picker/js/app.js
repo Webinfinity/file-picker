@@ -910,8 +910,9 @@ const FilePicker = function () {
       }, this),
 
       active_logo: ko.pureComputed(function () {
-        return `${config.static_path}/webapp/sources/${
-          this.view_model.accounts.active()}.png`;
+        //return `${config.static_path}/webapp/sources/${
+        //  this.view_model.accounts.active()}.png`;
+          return `${config.base_url}/services/${this.view_model.accounts.active()}/logo.png`;
       }, this),
 
       logout: (deleteAccount) => {

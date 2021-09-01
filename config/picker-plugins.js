@@ -65,6 +65,20 @@ module.exports = function getPickerPlugins(pickerDistPath) {
         to: path.join(pickerDistPath, 'less/'),
       },
     ]),
+      // copy icons
+      new CopyWebpackPlugin([
+          {
+              from: path.resolve(srcPath, 'picker/icon/'),
+              to: path.resolve(pickerDistPath, 'icon/'),
+          },
+      ]),
+      // copy fonts
+      new CopyWebpackPlugin([
+          {
+              from: path.resolve(srcPath, 'picker/font/'),
+              to: path.resolve(pickerDistPath, 'font/'),
+          },
+      ]),
     // copy localization and cldr data
     new CopyWebpackPlugin(getLocalizationCopyData(pickerDistPath)),
     /** Attach an id to the picker script tag
