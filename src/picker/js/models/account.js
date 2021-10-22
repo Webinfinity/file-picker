@@ -146,7 +146,7 @@ Account.prototype.data_from_key = function (
 
     callback(account);
   }).fail((err) => {
-    callback(null, (err && err.status === 403));
+    callback(null, (err && (err.status === 401 || err.status === 403)));
   }).always(() => {
     self.request = null;
   });
