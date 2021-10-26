@@ -1,14 +1,26 @@
 version: 0.2
 
+run-as: codebuild-user
+
 env:
   variables:
     BASE_URL: "https://apigw.dev.webinfinity.com/filesync"
     PICKER_URL: "https://cdn.dev.webinfinity.com/filesync/picker/index.html"
+    S3_BUCKET: "wi-content-dev"
+    CLOUDFRONT_ID: "E10ZRDMO2003HM"
 
 phases:
   install:
+    run-as: root
     runtime-versions:
-      node: 14
+      nodejs: 14
+    commands:
+      - echo Prepare environment on `date`
+      - chmod 755 /root
+      - chown -R codebuild-user:codebuild-user /root/.cache
+      - chown -R codebuild-user:codebuild-user /root/.config
+      - chown -R codebuild-user:codebuild-user /root/.local
+      - chown -R codebuild-user:codebuild-user /root/.npm
   pre_build:
     commands:
       - echo Install dependencies on `date`
@@ -21,8 +33,5 @@ phases:
   post_build:
     commands:
       - echo Deploy started on `date`
-
-cache:
-  paths:
-    - "./node_modules/**/*"
-    - "./bower_components/**/*"
+      - aws s3 sync dist s3://$S3_BUCKET/filesync/ --delete
+      - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths "/filesync/*"
