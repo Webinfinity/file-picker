@@ -1181,11 +1181,12 @@ const FilePicker = function () {
       // Relative navigation.
       navigate: (id) => {
         logger.debug('Navigating to file: ', id);
-        this.manager.active().filesystem().navigate(id, (err, result) => {
+        const activeAccount = this.manager.active();
+        activeAccount.filesystem().navigate(id, (err, result) => {
           logger.debug('Navigation result: ', err, result);
           if (err) {
             if (err.cause === 401) {
-              this.router.setLocation("#/account/reconnect/" + this.manager.active().account);
+              this.router.setLocation("#/account/reconnect/" + activeAccount.account);
             } else {
               // eslint-disable-next-line no-use-before-define
               iziToastHelper.error(error_message, { detail: err.message });
