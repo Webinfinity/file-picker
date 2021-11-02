@@ -214,13 +214,14 @@ const FilePicker = function () {
         return;
       }
       // Grab the current location
-      const current = manager.active().filesystem().current();
+      const activeAccount = manager.active();
+      const current = activeAccount.filesystem().current();
 
       const saves = new Array(fileManager.files().length).fill(null);
 
       // If you can save here
       if (current.can_upload_files) {
-        const authKey = manager.active().filesystem().key;
+        const authKey = activeAccount.filesystem().key;
 
         const isCancelled = this.getCancelTimeComparator();
         let requestCountSuccess = 0;
@@ -269,6 +270,7 @@ const FilePicker = function () {
                 'global/saverSuccess',
                 { number: requestCountSuccess },
               ),
+              activeAccount
             );
           }
         };
@@ -438,6 +440,7 @@ const FilePicker = function () {
               'global/chooserSuccess',
               { number: requestCountSuccess },
             ),
+            activeAccount
           );
         }
       };
@@ -466,6 +469,8 @@ const FilePicker = function () {
         }).fail((xhr, status, err) => {
           logger.warn('Error creating link: ', status, err, xhr);
           selections[selection_index].error = xhr.responseJSON;
+          selections[selection_index].accessDeniedError = xhr.status === 401;
+
           selectionComplete(false, selection_index);
         });
       };
@@ -571,6 +576,8 @@ const FilePicker = function () {
                   `Task[${res.id}] failed: ${JSON.stringify(err)}`,
                 );
                 selections[selection_index].error = xhr.responseJSON;
+                selections[selection_index].accessDeniedError = xhr.status === 401;
+
                 selectionComplete(false, selection_index);
               },
             });
@@ -586,6 +593,8 @@ const FilePicker = function () {
           }
         }).fail((xhr) => {
           selections[selection_index].error = xhr.responseJSON;
+          selections[selection_index].accessDeniedError = xhr.status === 401;
+
           selectionComplete(false, selection_index);
         });
       };
@@ -956,7 +965,7 @@ const FilePicker = function () {
       }, this.manager.accounts),
 
       // Connect new account.
-      connect: (service) => {
+      connect: (service, viewFiles) => {
         // if clicking on computer, switch to computer view
         if (service === 'computer') {
           this.router.setLocation('#/computer');
@@ -1033,7 +1042,13 @@ const FilePicker = function () {
               });
 
               // eslint-disable-next-line no-use-before-define
-              if (first_account) {
+              if (viewFiles) {
+                this.manager.active(
+                  this.manager.getByAccount(account.account),
+                );
+
+                this.router.setLocation('#/files');
+              } else if (first_account) {
                 this.router.setLocation('#/files');
               } else {
                 this.router.setLocation('#/accounts');
@@ -1167,11 +1182,16 @@ const FilePicker = function () {
       // Relative navigation.
       navigate: (id) => {
         logger.debug('Navigating to file: ', id);
-        this.manager.active().filesystem().navigate(id, (err, result) => {
+        const activeAccount = this.manager.active();
+        activeAccount.filesystem().navigate(id, (err, result) => {
           logger.debug('Navigation result: ', err, result);
           if (err) {
-            // eslint-disable-next-line no-use-before-define
-            iziToastHelper.error(error_message, { detail: err.message });
+            if (err.cause === 401) {
+              this.router.setLocation("#/account/reconnect/" + activeAccount.account);
+            } else {
+              // eslint-disable-next-line no-use-before-define
+              iziToastHelper.error(error_message, { detail: err.message });
+            }
           }
         });
       },
@@ -1237,10 +1257,15 @@ const FilePicker = function () {
         if (!this.manager.active().account) {
           return;
         }
-        this.manager.active().filesystem().refresh(force, (err) => {
+        const activeAccount = this.manager.active();
+        activeAccount.filesystem().refresh(force, (err) => {
           if (err) {
-            // eslint-disable-next-line no-use-before-define
-            iziToastHelper.error(error_message, { detail: err.message });
+            if (err.cause === 401) {
+              this.router.setLocation("#/account/reconnect/" + activeAccount.account);
+            } else {
+              // eslint-disable-next-line no-use-before-define
+              iziToastHelper.error(error_message, { detail: err.message }); 
+            }
           }
         });
       },
@@ -1273,7 +1298,8 @@ const FilePicker = function () {
       },
       doSearch: () => {
         const { view_model: viewModel, manager } = this;
-        const fs = manager.active().filesystem();
+        const activeAccount = manager.active();
+        const fs = activeAccount.filesystem();
         const searchQuery = viewModel.files.searchQuery();
 
         // de-select files/folders
@@ -1293,9 +1319,13 @@ const FilePicker = function () {
           () => {
             viewModel.files.searchResult(s.results.objects);
           },
-          () => {
-            const msg = localization.formatAndWrapMessage('files/searchFail');
-            iziToastHelper.error(msg);
+          (xhr) => {
+            if (xhr && xhr.status === 401) {
+              this.router.setLocation("#/account/reconnect/" + activeAccount.account);
+            } else {
+              const msg = localization.formatAndWrapMessage('files/searchFail');
+              iziToastHelper.error(msg);
+            }
           },
         );
       },
@@ -1457,7 +1487,7 @@ FilePicker.prototype.initClose = function initClose() {
  */
 FilePicker.prototype.finish = function finish(
   successItems, failedItems, successMessage,
-  options = { successOnAllFail: false },
+  options = { successOnAllFail: false }, activeAccount
 ) {
   const { view_model } = this;
   const attachMode = view_model.attachMode();
@@ -1474,6 +1504,11 @@ FilePicker.prototype.finish = function finish(
   // Emit error event only when there are failed items.
   if (failedItems.length > 0) {
     view_model.postMessage('error', failedItems);
+
+    if (failedItems.some(x => x.accessDeniedError)) {
+      this.router.setLocation("#/account/reconnect/" + activeAccount.account);
+    }
+
     return;
   }
 

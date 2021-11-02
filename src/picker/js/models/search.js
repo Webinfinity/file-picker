@@ -40,9 +40,9 @@ Search.prototype.search = function (callback, errback) {
       });
       if (callback) callback();
     },
-    error: function () {
+    error: function (xhr) {
       logger.error('[Account ' + self.account + '] Search request failed.');
-      if (errback) errback();
+      if (errback) errback(xhr);
     },
     datatype: 'json'
   })
