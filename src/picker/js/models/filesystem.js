@@ -224,7 +224,7 @@ Filesystem.prototype._getPage = function _getPage() {
         // Ignore this case.
         resolve();
       } else {
-        reject(new Error(err));
+        reject(new Error(err, xhr.status === 401 ? { cause: 401 } : null));
       }
     });
   });
