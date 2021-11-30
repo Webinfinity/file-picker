@@ -95,6 +95,8 @@ declare global {
       enable_logout?: boolean;
       delete_accounts_on_logout?: boolean;
 
+      take_subscribable_into_account?: boolean;
+
       oauth?(service: ServiceName): OAuthQueryParams;
 
       root_folder_id?: { [key: number]: string };

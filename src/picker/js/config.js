@@ -142,6 +142,7 @@ Object.assign(config, {
   uploads_pause_on_error: ko.observable(true),
   user_data: ko.observable(), // Get asynchronously.
   delete_accounts_on_logout: ko.observable(false),
+  take_subscribable_into_account: ko.observable(false),
   custom_style_vars: ko.observable({}),
   root_folder_id: ko.observable({}),
   mimeTypes: getMimeTypes(initTypes),
