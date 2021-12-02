@@ -168,8 +168,6 @@ const FilePicker = function () {
     enable_logout: config.enable_logout,
     delete_accounts_on_logout: config.delete_accounts_on_logout,
 
-    take_subscribable_into_account: config.take_subscribable_into_account,
-
     // The current view: alternates between
     // 'files', 'accounts', 'computer', 'addConfirm', and 'dropzone'
     current: ko.observable(startView),
@@ -1101,7 +1099,7 @@ const FilePicker = function () {
         if (util.isMobile) {
           return true;
         }
-        const takeSubscribableIntoAccount = this.view_model.take_subscribable_into_account();
+        const takeSubscribableIntoAccount = config.take_subscribable_into_account();
         const path = activeAccount.filesystem().path();
         if (path.length === 0 && config.types().includes('folders')) {
           if (takeSubscribableIntoAccount) {

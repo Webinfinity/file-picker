@@ -67,6 +67,7 @@ declare global {
       persist?: PersistMode;
       services?: (ServiceName | ServiceGroup)[];
       account_management?: boolean;
+      take_subscribable_into_account?: boolean;
       display_backdrop?: boolean;
       element?: string | HTMLElement;
       // TODO: deprecate in v2
@@ -94,9 +95,6 @@ declare global {
       tokens?: string[];
       enable_logout?: boolean;
       delete_accounts_on_logout?: boolean;
-
-      take_subscribable_into_account?: boolean;
-
       oauth?(service: ServiceName): OAuthQueryParams;
 
       root_folder_id?: { [key: number]: string };

@@ -267,6 +267,9 @@ filePicker._fileWidget.prototype._setOptions = function (options = {}) {
   this.display_backdrop = (
     options.display_backdrop === undefined)
     ? false : options.display_backdrop;
+  this.take_subscribable_into_account = (
+    options.take_subscribable_into_account === undefined)
+    ? false : options.take_subscribable_into_account;
   this.services = options.services || null;
   this.files = options.files || [];
   this.types = options.types || [];
