@@ -1092,6 +1092,7 @@ const FilePicker = function () {
          * - there are more than 1 item selected
          * - chooserButtonTextKey = 'global/open'
          */
+        console.log('sasharat');
         const activeAccount = this.manager.active();
         if (Object.keys(activeAccount).length === 0) {
           return false;
