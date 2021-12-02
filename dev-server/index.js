@@ -38,7 +38,8 @@ import 'regenerator-runtime/runtime';
       services: ['all'],
       types: ['all'],
       display_backdrop: true,
-      copy_to_upload_location: 'sync'
+      copy_to_upload_location: 'sync',
+      //take_subscribable_into_account: true,
       // enable options below to test localization
       // locale: 'zh',
       // translations: window.translations,
