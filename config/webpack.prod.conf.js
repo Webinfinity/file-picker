@@ -98,7 +98,7 @@ module.exports = [
     },
     output: {
       path: path.resolve(distPath, './picker'),
-      filename: '[name].js',
+      filename: '[name].[hash].js',
       publicPath: './',
     },
     plugins: [
