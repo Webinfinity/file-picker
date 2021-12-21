@@ -87,7 +87,7 @@ module.exports = function getPickerPlugins(pickerDistPath) {
      */
     new ScriptExtHtmlWebpackPlugin({
       custom: {
-        test: /picker\.js$/,
+        test: /picker\..+\.js$/,
         attribute: 'id',
         value: 'kloudless-file-picker-script',
       },
