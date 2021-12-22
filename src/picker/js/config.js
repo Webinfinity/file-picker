@@ -392,8 +392,13 @@ export const initServices = () => new Promise((resolve) => {
         if (config.services.indexOf(serviceDatum.id) > -1
             || config.services.indexOf(serviceCategory) > -1) {
           service.visible = true;
+          // #25827 {filepicker} Connected account is displayed on file picker 
+          // when connector is deactivated/deleted
+          config.all_services.push(service);
         }
-        config.all_services.push(service);
+
+        // config.all_services.push(service);
+        
       });
 
       config.all_services.sort(serviceOrderCompare);
