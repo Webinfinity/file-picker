@@ -1,5 +1,6 @@
 /* global mOxie, BABEL_VERSION, BUILD_LICENSE */
 /* eslint-disable func-names, camelcase, no-alert */
+/* test deploy */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
