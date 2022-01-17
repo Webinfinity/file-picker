@@ -142,6 +142,7 @@ Object.assign(config, {
   uploads_pause_on_error: ko.observable(true),
   user_data: ko.observable(), // Get asynchronously.
   delete_accounts_on_logout: ko.observable(false),
+  take_subscribable_into_account: ko.observable(false),
   custom_style_vars: ko.observable({}),
   root_folder_id: ko.observable({}),
   mimeTypes: getMimeTypes(initTypes),
@@ -391,8 +392,13 @@ export const initServices = () => new Promise((resolve) => {
         if (config.services.indexOf(serviceDatum.id) > -1
             || config.services.indexOf(serviceCategory) > -1) {
           service.visible = true;
+          // #25827 {filepicker} Connected account is displayed on file picker 
+          // when connector is deactivated/deleted
+          config.all_services.push(service);
         }
-        config.all_services.push(service);
+
+        // config.all_services.push(service);
+        
       });
 
       config.all_services.sort(serviceOrderCompare);
