@@ -33,5 +33,5 @@ phases:
   post_build:
     commands:
       - echo Deploy started on `date`
-      - aws s3 sync dist s3://$S3_BUCKET/filesync/ --delete
+      - aws s3 sync dist s3://$S3_BUCKET/filesync/ --delete --cache-control no-cache
       - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths "/filesync/*"

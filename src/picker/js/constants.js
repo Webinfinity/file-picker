@@ -52,6 +52,9 @@ const TYPE_ALIAS = {
     'epub', 'fb2', 'ibooks', 'kf8', 'lit', 'lrf', 'lrx', 'mobi', 'opf', 'oxps',
     'pdf', 'pdg', 'prc', 'tebr', 'tr2', 'tr3', 'xeb', 'xps',
   ],
+  archives: [
+    'zip'
+  ]
 };
 
 const MIME_TYPE_ALIAS = {
