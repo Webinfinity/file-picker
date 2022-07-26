@@ -78,6 +78,8 @@ const services = ko.pureComputed(() => {
 
 // File Picker declaration.
 const FilePicker = function () {
+  console.log('cache test deployment');
+
   this.manager = new AccountManager();
   this.fileManager = new FileManager();
   logger.info('BUILD_LICENSE:  ', BUILD_LICENSE);
