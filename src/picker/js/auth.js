@@ -111,7 +111,9 @@ if (!util.supportsCORS() || !util.supportsPopupPostMessage()) {
  */
 window.addEventListener('message', (message) => {
   const ns = 'kloudless:';
-  if (message.origin !== config.base_url) {
+  //TODO: is this ssecurity feature? is the change OK?
+  //if (message.origin !== config.base_url) {
+  if (config.base_url.indexOf(message.origin) !== 0) {
     return;
   }
   if (message.data.indexOf(ns) !== 0) {
@@ -141,7 +143,7 @@ window.addEventListener('message', (message) => {
 
 // Display popup window
 function authenticate(service, oauthParams, callback) {
-  let url = `${config.base_url}/${config.api_version}/oauth/`;
+  let url = `${config.base_url}/oauth/authorize/`;
   const requestId = util.randomID();
   const queryParams = getEffectiveOauthParams(requestId, service, oauthParams);
   const h = 500;
@@ -172,6 +174,11 @@ function authenticate(service, oauthParams, callback) {
     options.left = (window.screen.width - options.width) / 2;
   }
 
+  // queryParams.form_data = JSON.stringify({
+  //   username: 'qweqwe',
+  //   domain: 'qweqwe'
+  // });
+  
   // params
   const params = [
     `location=${options.location ? 'yes' : 'no'}`,

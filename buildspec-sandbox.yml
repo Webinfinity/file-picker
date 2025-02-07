@@ -1,0 +1,37 @@
+version: 0.2
+
+run-as: codebuild-user
+
+env:
+  variables:
+    BASE_URL: "https://apigw.sandbox.webinfinity.com/filesync"
+    PICKER_URL: "https://cdn.sandbox.webinfinity.com/filesync/picker/index.html"
+    S3_BUCKET: "wi-content-sandbox"
+    CLOUDFRONT_ID: "EQ6CXEKI0O5D0"
+
+phases:
+  install:
+    run-as: root
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - echo Prepare environment on `date`
+      - chmod 755 /root
+      - chown -R codebuild-user:codebuild-user /root/.cache
+      - chown -R codebuild-user:codebuild-user /root/.config
+      - chown -R codebuild-user:codebuild-user /root/.local
+      - chown -R codebuild-user:codebuild-user /root/.npm
+  pre_build:
+    commands:
+      - echo Install dependencies on `date`
+      - npm ci
+      - npm run install-deps
+  build:
+    commands:
+      - echo Build started on `date`
+      - BASE_URL=$BASE_URL PICKER_URL=$PICKER_URL npm run build
+  post_build:
+    commands:
+      - echo Deploy started on `date`
+      - aws s3 sync dist s3://$S3_BUCKET/filesync/ --delete --cache-control no-cache
+      - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths "/filesync/*"

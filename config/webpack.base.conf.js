@@ -24,6 +24,27 @@ function getStyleLoaders(fileType, viewType) {
       plugins: isDevelopment ? [AutoPrefixer()] : [AutoPrefixer(), CssNano()],
     },
   };
+
+  const lessLoader = {
+      loader: 'less-loader',
+      options: {
+          plugins: [
+              {
+                  install: (lessObj, pluginManager) => {
+                      pluginManager.addPreProcessor({
+                          process: function (lessCode) {
+                              const pickerFolderUrl = process.env.PICKER_URL.replace('/index.html', '');
+                              return lessCode
+                                  .replace('__icons_base__', pickerFolderUrl + '/icon')
+                                  .replace('__fonts_base__', pickerFolderUrl + '/font');
+                          }
+                      }, 2000); // 2000 sets priority to come after less imports, per code comments
+                  }
+              }
+          ]
+      }
+  };
+
   if (viewType === 'picker') {
     result.push(miniCssExtractLoader);
   } else if (viewType === 'loader') {
@@ -31,7 +52,7 @@ function getStyleLoaders(fileType, viewType) {
   }
   result.push('css-loader', postCssLoader);
   if (fileType === 'less') {
-    result.push('less-loader');
+      result.push(lessLoader);
   }
   return result;
 }
@@ -114,7 +135,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].[hash].css',
     }),
   ],
   performance: {

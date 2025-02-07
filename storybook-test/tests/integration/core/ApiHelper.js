@@ -3,7 +3,7 @@ const axios = require('axios');
 class ApiHelper {
   constructor(baseUrl, token) {
     this.axiosInstance = axios.create({
-      baseURL: `${baseUrl}/v1/accounts/me/`,
+      baseURL: `${baseUrl}/accounts/me/`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

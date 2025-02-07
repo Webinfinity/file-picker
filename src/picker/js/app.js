@@ -1,5 +1,6 @@
 /* global mOxie, BABEL_VERSION, BUILD_LICENSE */
 /* eslint-disable func-names, camelcase, no-alert */
+/* test deploy */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
@@ -77,6 +78,8 @@ const services = ko.pureComputed(() => {
 
 // File Picker declaration.
 const FilePicker = function () {
+  console.log('cache test deployment');
+
   this.manager = new AccountManager();
   this.fileManager = new FileManager();
   logger.info('BUILD_LICENSE:  ', BUILD_LICENSE);
@@ -213,13 +216,14 @@ const FilePicker = function () {
         return;
       }
       // Grab the current location
-      const current = manager.active().filesystem().current();
+      const activeAccount = manager.active();
+      const current = activeAccount.filesystem().current();
 
       const saves = new Array(fileManager.files().length).fill(null);
 
       // If you can save here
       if (current.can_upload_files) {
-        const authKey = manager.active().filesystem().key;
+        const authKey = activeAccount.filesystem().key;
 
         const isCancelled = this.getCancelTimeComparator();
         let requestCountSuccess = 0;
@@ -268,6 +272,7 @@ const FilePicker = function () {
                 'global/saverSuccess',
                 { number: requestCountSuccess },
               ),
+              activeAccount
             );
           }
         };
@@ -387,8 +392,9 @@ const FilePicker = function () {
         selections.push(rest);
       }
 
-      const accountId = this.manager.active().filesystem().id;
-      const authKey = this.manager.active().filesystem().key;
+      const activeAccount = this.manager.active();
+      const accountId = activeAccount.filesystem().id;
+      const authKey = activeAccount.filesystem().key;
 
       let requestCountSuccess = 0;
       let requestCountError = 0;
@@ -436,6 +442,7 @@ const FilePicker = function () {
               'global/chooserSuccess',
               { number: requestCountSuccess },
             ),
+            activeAccount
           );
         }
       };
@@ -464,6 +471,8 @@ const FilePicker = function () {
         }).fail((xhr, status, err) => {
           logger.warn('Error creating link: ', status, err, xhr);
           selections[selection_index].error = xhr.responseJSON;
+          selections[selection_index].accessDeniedError = xhr.status === 401;
+
           selectionComplete(false, selection_index);
         });
       };
@@ -495,6 +504,8 @@ const FilePicker = function () {
           }).fail(callbacks.onError);
         }, POLLING_INTERVAL);
       };
+
+      const activeService = services()[activeAccount.service];
 
       const moveToDrop = function (type, selection_index) {
         const copyMode = config.copy_to_upload_location();
@@ -553,7 +564,13 @@ const FilePicker = function () {
             // polling for the result (file metadata)
             pollTask(res.id, {
               onComplete(metadata) {
-                selections[selection_index] = metadata;
+                selections[selection_index] = {
+                  metadata,
+                  serviceInfo: {
+                    name: activeService.name
+                  }
+                };
+
                 selectionComplete(true, selection_index);
               },
               onError(xhr, status, err) {
@@ -561,6 +578,8 @@ const FilePicker = function () {
                   `Task[${res.id}] failed: ${JSON.stringify(err)}`,
                 );
                 selections[selection_index].error = xhr.responseJSON;
+                selections[selection_index].accessDeniedError = xhr.status === 401;
+
                 selectionComplete(false, selection_index);
               },
             });
@@ -576,6 +595,8 @@ const FilePicker = function () {
           }
         }).fail((xhr) => {
           selections[selection_index].error = xhr.responseJSON;
+          selections[selection_index].accessDeniedError = xhr.status === 401;
+
           selectionComplete(false, selection_index);
         });
       };
@@ -900,8 +921,9 @@ const FilePicker = function () {
       }, this),
 
       active_logo: ko.pureComputed(function () {
-        return `${config.static_path}/webapp/sources/${
-          this.view_model.accounts.active()}.png`;
+        //return `${config.static_path}/webapp/sources/${
+        //  this.view_model.accounts.active()}.png`;
+          return `${config.base_url}/services/${this.view_model.accounts.active()}/logo.png`;
       }, this),
 
       logout: (deleteAccount) => {
@@ -945,7 +967,7 @@ const FilePicker = function () {
       }, this.manager.accounts),
 
       // Connect new account.
-      connect: (service) => {
+      connect: (service, viewFiles) => {
         // if clicking on computer, switch to computer view
         if (service === 'computer') {
           this.router.setLocation('#/computer');
@@ -1022,7 +1044,13 @@ const FilePicker = function () {
               });
 
               // eslint-disable-next-line no-use-before-define
-              if (first_account) {
+              if (viewFiles) {
+                this.manager.active(
+                  this.manager.getByAccount(account.account),
+                );
+
+                this.router.setLocation('#/files');
+              } else if (first_account) {
                 this.router.setLocation('#/files');
               } else {
                 this.router.setLocation('#/accounts');
@@ -1066,6 +1094,7 @@ const FilePicker = function () {
          * - there are more than 1 item selected
          * - chooserButtonTextKey = 'global/open'
          */
+
         const activeAccount = this.manager.active();
         if (Object.keys(activeAccount).length === 0) {
           return false;
@@ -1073,15 +1102,27 @@ const FilePicker = function () {
         if (util.isMobile) {
           return true;
         }
+        const takeSubscribableIntoAccount = config.take_subscribable_into_account();
         const path = activeAccount.filesystem().path();
         if (path.length === 0 && config.types().includes('folders')) {
-          return true;
+          if (takeSubscribableIntoAccount) {
+            return activeAccount.filesystem().rootMetadata().subscribable;
+          } else {
+            return true;
+          }
         }
         if (this.view_model.files.chooserButtonTextKey() === 'global/open') {
           return true;
         }
         const selected = this.view_model.files.selected();
-        return selected.length > 0;
+
+        if (selected.length > 0) {
+          if (takeSubscribableIntoAccount) {
+            return selected.attr('data-subscribable') === 'true';
+          } else {
+            return true;
+          }
+        }
       }),
       chooserButtonTextKey: ko.observable('global/select'),
       saverButtonTextKey: ko.pureComputed(() => {
@@ -1156,11 +1197,16 @@ const FilePicker = function () {
       // Relative navigation.
       navigate: (id) => {
         logger.debug('Navigating to file: ', id);
-        this.manager.active().filesystem().navigate(id, (err, result) => {
+        const activeAccount = this.manager.active();
+        activeAccount.filesystem().navigate(id, (err, result) => {
           logger.debug('Navigation result: ', err, result);
           if (err) {
-            // eslint-disable-next-line no-use-before-define
-            iziToastHelper.error(error_message, { detail: err.message });
+            if (err.cause === 401) {
+              this.router.setLocation("#/account/reconnect/" + activeAccount.account);
+            } else {
+              // eslint-disable-next-line no-use-before-define
+              iziToastHelper.error(error_message, { detail: err.message });
+            }
           }
         });
       },
@@ -1226,10 +1272,15 @@ const FilePicker = function () {
         if (!this.manager.active().account) {
           return;
         }
-        this.manager.active().filesystem().refresh(force, (err) => {
+        const activeAccount = this.manager.active();
+        activeAccount.filesystem().refresh(force, (err) => {
           if (err) {
-            // eslint-disable-next-line no-use-before-define
-            iziToastHelper.error(error_message, { detail: err.message });
+            if (err.cause === 401) {
+              this.router.setLocation("#/account/reconnect/" + activeAccount.account);
+            } else {
+              // eslint-disable-next-line no-use-before-define
+              iziToastHelper.error(error_message, { detail: err.message }); 
+            }
           }
         });
       },
@@ -1262,7 +1313,8 @@ const FilePicker = function () {
       },
       doSearch: () => {
         const { view_model: viewModel, manager } = this;
-        const fs = manager.active().filesystem();
+        const activeAccount = manager.active();
+        const fs = activeAccount.filesystem();
         const searchQuery = viewModel.files.searchQuery();
 
         // de-select files/folders
@@ -1282,9 +1334,13 @@ const FilePicker = function () {
           () => {
             viewModel.files.searchResult(s.results.objects);
           },
-          () => {
-            const msg = localization.formatAndWrapMessage('files/searchFail');
-            iziToastHelper.error(msg);
+          (xhr) => {
+            if (xhr && xhr.status === 401) {
+              this.router.setLocation("#/account/reconnect/" + activeAccount.account);
+            } else {
+              const msg = localization.formatAndWrapMessage('files/searchFail');
+              iziToastHelper.error(msg);
+            }
           },
         );
       },
@@ -1446,7 +1502,7 @@ FilePicker.prototype.initClose = function initClose() {
  */
 FilePicker.prototype.finish = function finish(
   successItems, failedItems, successMessage,
-  options = { successOnAllFail: false },
+  options = { successOnAllFail: false }, activeAccount
 ) {
   const { view_model } = this;
   const attachMode = view_model.attachMode();
@@ -1463,6 +1519,11 @@ FilePicker.prototype.finish = function finish(
   // Emit error event only when there are failed items.
   if (failedItems.length > 0) {
     view_model.postMessage('error', failedItems);
+
+    if (failedItems.some(x => x.accessDeniedError)) {
+      this.router.setLocation("#/account/reconnect/" + activeAccount.account);
+    }
+
     return;
   }
 

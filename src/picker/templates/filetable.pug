@@ -60,11 +60,13 @@
             attr: {
               'data-type': type,
               'data-id': id,
-              'data-selectable': !$data.disabled()
+              'data-selectable': !$data.disabled(),
+              'data-subscribable': $data.subscribable
             },
             css: {
               'ftable__row--disabled': $data.disabled() && $data.type == 'file',
               'ftable__row--new-loaded': $data.newLoaded,
+              'ftable__row--subscribable': $data.subscribable,
               [$root.e2eSelectors.J_ROW]: true
             }`)
           td
@@ -77,7 +79,7 @@
             .ie-fix-wrap
               div(data-bind='text: name')
           td.ftable__cell-md.sm-hidden(data-bind='translate: friendlySize && { html: friendlySize }')
-          td.ftable__cell-md.sm-hidden(data-bind='formatDate: modified || created || null')
+          td.ftable__cell-md.sm-hidden(data-bind='formatDate: $data.modified || $data.created || null')
         // /ko
         // /ko
 
