@@ -5,25 +5,10 @@
   "description": "",
   "author": "Kloudless <hello@kloudless.com> (https://kloudless.com)",
   "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "7.4.0",
-    "@babel/preset-env": "7.4.1",
-    "@storybook/addon-actions": "5.1.9",
-    "@storybook/addon-knobs": "5.1.9",
-    "@storybook/addon-links": "5.1.9",
-    "@storybook/addons": "5.1.9",
-    "@storybook/vue": "5.1.9",
-    "babel-loader": "8.0.5",
-    "babel-plugin-stylus-compiler": "1.4.0",
-    "babel-preset-vue": "2.0.2",
-    "core-js": "3.20.2",
-    "storybook-readme": "5.0.2",
-    "vue": "2.6.10",
-    "vue-loader": "15.7.0",
-    "vue-template-compiler": "2.6.10"
-  },
+  "devDependencies": {},
   "scripts": {
-    "storybook": "start-storybook -p 9001",
-    "build": "build-storybook -c .storybook -o ../.demo/vue"
+    "storybook": "npm run explain",
+    "build": "npm run explain",
+    "explain": "echo 'storybook was disabled due to deprecated dependencies see em360-3933' && exit 1"
   }
 }
