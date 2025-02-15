@@ -4,9 +4,10 @@
 	"name": "Node.js",
 	"build": {
 		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 12, 14, 16
+		// https://hub.docker.com/r/microsoft/devcontainers-typescript-node
+		// 22 / 22-bookworm, 20 / 20-bookworm, 18 / 18-bookworm, 20-bullseye, 18-bullseye
 		"args": {
-			"VARIANT": "14"
+			"VARIANT": "18"
 		}
 	},
 
