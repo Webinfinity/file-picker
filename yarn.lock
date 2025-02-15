@@ -1489,8 +1489,8 @@ __metadata:
     core-js: "npm:3.40.0"
     css-loader: "npm:3.6.0"
     cssnano: "npm:4.1.11"
-    ejs: "npm:2.7.4"
-    ejs-cli: "npm:2.2.3"
+    ejs: "npm:3.1.10"
+    ejs-cli: "npm:^2.2.3"
     eslint: "npm:5.16.0"
     eslint-config-airbnb-base: "npm:13.2.0"
     eslint-plugin-import: "npm:2.31.0"
@@ -4899,7 +4899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs-cli@npm:2.2.3":
+"ejs-cli@npm:^2.2.3":
   version: 2.2.3
   resolution: "ejs-cli@npm:2.2.3"
   dependencies:
@@ -4915,14 +4915,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:2.7.4":
-  version: 2.7.4
-  resolution: "ejs@npm:2.7.4"
-  checksum: 10c0/d5700120ce5dd10e0853085003862f5d78c198326ed634838aa7f8b0bf1efd65ad9fa0f2bac0053af05afeb21fb015595166b2c4fc83c7ef8f481e469a01ad52
-  languageName: node
-  linkType: hard
-
-"ejs@npm:^3.1.6":
+"ejs@npm:3.1.10, ejs@npm:^3.1.6":
   version: 3.1.10
   resolution: "ejs@npm:3.1.10"
   dependencies:
