@@ -54,7 +54,7 @@
     "@babel/preset-env": "7.26.9",
     "@babel/preset-react": "7.26.3",
     "@kloudless/file-picker-plupload-module": "https://github.com/Webinfinity/file-picker-plupload-module#ea5957be8c0c82816ab386fe9ff891d35ccd1fc2",
-    "@storybook/storybook-deployer": "2.8.1",
+    "@storybook/storybook-deployer": "2.8.16",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "autoprefixer": "9.8.8",
