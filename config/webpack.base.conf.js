@@ -16,12 +16,13 @@ function getStyleLoaders(fileType, viewType) {
   const result = [];
   const miniCssExtractLoader = {
     loader: MiniCssExtractPlugin.loader,
-    options: { hmr: isDevelopment },
   };
   const postCssLoader = {
     loader: 'postcss-loader',
     options: {
-      plugins: isDevelopment ? [AutoPrefixer()] : [AutoPrefixer(), CssNano()],
+      postcssOptions: {
+        plugins: isDevelopment ? [AutoPrefixer()] : [AutoPrefixer(), CssNano()],
+      }
     },
   };
 
@@ -79,6 +80,7 @@ function getRules() {
           outputPath: 'icon',
         },
       },
+      type: 'javascript/auto',
     },
     {
       test: /\.woff2?$/,
@@ -92,6 +94,7 @@ function getRules() {
         esModule: false,
         outputPath: 'font',
       },
+      type: 'javascript/auto',
     },
   ];
 
@@ -123,7 +126,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
+      filename: '[name].[fullhash].css',
     }),
   ],
   performance: {

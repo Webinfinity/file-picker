@@ -32,7 +32,6 @@ app.use((req, res, next) => {
 
 // bind webpack and hot reload
 app.use(webpackDevMiddleware(compiler, {
-  logTime: true,
   stats: 'minimal',
   publicPath: '/',
 }));

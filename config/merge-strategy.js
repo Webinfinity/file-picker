@@ -1,8 +1,8 @@
-const merge = require('webpack-merge');
+const { mergeWithRules, CustomizeRule } = require('webpack-merge');
 
-module.exports = merge.strategy(
+module.exports = mergeWithRules(
   {
-    'module.rules': 'append',
-    plugins: 'append',
+    'module.rules': CustomizeRule.Append,
+    plugins: CustomizeRule.Append,
   },
 );
