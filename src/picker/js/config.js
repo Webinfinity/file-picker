@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import ko from 'knockout';
 import logger from 'loglevel';
-import compareVersions from 'compare-versions';
+import { compare as compareVersions } from 'compare-versions';
 // check babel.config.js for actual import path
 import config from 'picker-config';
 import localization from './localization';
@@ -600,7 +600,7 @@ config.localeOptions.subscribe((options) => {
  */
 config.isSupported = function isSupported(targetVersion) {
   const version = config.loader_version();
-  return compareVersions.compare(version, targetVersion, '>');
+  return compareVersions(version, targetVersion, '>');
 };
 
 // load the default locale

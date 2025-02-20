@@ -25,7 +25,11 @@ module.exports = basePath => async ({ config }) => {
         'css-loader',
         {
           loader: 'postcss-loader',
-          options: { plugins: [AutoPrefixer()] },
+          options: {
+            postcssOptions: {
+              plugins: [AutoPrefixer()],
+            },
+          },
         },
         'less-loader',
       ],
