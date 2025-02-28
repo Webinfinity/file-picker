@@ -13,7 +13,7 @@ phases:
   install:
     run-as: root
     runtime-versions:
-      nodejs: 14
+      nodejs: 18
     commands:
       - echo Prepare environment on `date`
       - chmod 755 /root
