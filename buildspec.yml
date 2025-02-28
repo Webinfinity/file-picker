@@ -21,6 +21,7 @@ phases:
       - chown -R codebuild-user:codebuild-user /root/.config
       - chown -R codebuild-user:codebuild-user /root/.local
       - chown -R codebuild-user:codebuild-user /root/.npm
+      - chown -R codebuild-user:codebuild-user /root/.yarn
   pre_build:
     commands:
       - echo Install dependencies on `date`
