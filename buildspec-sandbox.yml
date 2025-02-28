@@ -13,7 +13,7 @@ phases:
   install:
     run-as: root
     runtime-versions:
-      nodejs: 14
+      nodejs: 18
     commands:
       - echo Prepare environment on `date`
       - chmod 755 /root
@@ -24,8 +24,8 @@ phases:
   pre_build:
     commands:
       - echo Install dependencies on `date`
-      - npm ci
-      - npm run install-deps
+      - yarn install
+      - yarn run install-deps
   build:
     commands:
       - echo Build started on `date`
