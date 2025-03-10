@@ -157,8 +157,8 @@ concerns.
 ### File Picker Modes
 
 The File Picker can be configured to either be a file [chooser](#chooser) to
-select files and folders from cloud storage or the local computer, or a file
-[saver](#saver) to export a specific file  to cloud storage.
+select files and folders from cloud storage. ~~or the local computer, or a file
+[saver](#saver) to export a specific file  to cloud storage.~~
 
 #### Chooser
 
@@ -596,12 +596,11 @@ File Picker JavaScript on the page.
   entries. Selecting multiple folders is not currently supported on mobile
   devices.
 
-
-* `computer` : boolean
+* ~~`computer` : boolean~~
 
   Chooser: _Optional (default: false)_
 
-  Dropzone: _Always true_
+  ~~Dropzone: _Always true_~~
 
   This option allows users to upload files directly from their computer.
   Note: If you plan to build and host the file-picker on your own, this option
@@ -1184,7 +1183,7 @@ var files = [{
 picker.save(files);
 ```
 
-### Dropzone
+### ~~Dropzone~~
 
 The Dropzone is a variety of the Chooser that allows users to drop files into
 it from their Computer rather than only click on it to launch the File Picker.
@@ -1193,7 +1192,7 @@ It opens in place when files are dropped into it.
 Note: If you plan to build and host the file-picker on your own, the Dropzone
 is only enabled for the [AGPL build](#build).
 
-#### Configuration
+#### ~~Configuration~~
 
 The configuration is similar to the Chooser's, but requires the `element` option
 to indicate where to display the Dropzone, as described below. In addition, the
@@ -1211,7 +1210,7 @@ configured as described for the Chooser.
   files in. The area's width will adjust automatically when the viewport
   width is lower than 600px.
 
-#### Methods
+#### ~~Methods~~
 
 * `filePicker.dropzone(options)`
 
@@ -1225,7 +1224,7 @@ configured as described for the Chooser.
 
   See `picker.close()` for more information.
 
-#### Example
+#### ~~Example~~
 
 [Visit our JSBin example of the Dropzone!](https://output.jsbin.com/tariday)
 
@@ -1467,7 +1466,7 @@ Folder | Purpose
 `loader` | Contains the script that an application includes to load the File Picker.
 `picker` | Contains the File Picker assets that the `loader` loads in an iframe. Only customize this when [self-hosting](#self-hosting) the File Picker.
 
-The above command generates a build licensed under MIT by default. If you want
+The above command generates a build licensed under MIT.<s> by default. If you want
 to self-host the File Picker, please note that the Computer option and
 the Dropzone are only available in an AGPLv3 licensed build. For more details,
 refer to the [License](#license) section. To get an AGPLv3 licensed build, run
@@ -1477,7 +1476,7 @@ npm run build:agpl
 ```
 
 , or customize your build by providing the [build option](#build-options)
-`BUILD_LICENSE=AGPL`.
+`BUILD_LICENSE=AGPL`.</s>
 
 #### Build Options
 
@@ -1486,9 +1485,9 @@ to customize the build, or sometimes at run-time as well.
 
 Build-time Env Var | Run-time option | Description | Default
 ---|---|---|---
-`BASE_URL` | `baseUrl` | URL to the Kloudless API Server | https://api.kloudless.com
+`BASE_URL` | ~~`baseUrl`~~ | URL to the Kloudless API Server | https://api.kloudless.com
 `PICKER_URL` | `pickerUrl` | The URL that the loader loads the file picker iframe from. | https://static-cdn.kloudless.com/p/platform/file-picker/v2/index.html
-`BUILD_LICENSE` | N/A | `MIT` or `AGPL`. See the [Build](#build) section. | MIT
+`BUILD_LICENSE` | ~~N/A~~ | ~~`MIT` or `AGPL`. See the [Build](#build) section.~~ | MIT
 
 Check out the [Self-hosting](#self-hosting) section below for an example
 that changes the `PICKER_URL` in order to self-host a customized fork
@@ -1612,11 +1611,11 @@ check the result at `dist/custom-index.html`.
 
 If you have discovered a security vulnerability with this library or any other
 part of Kloudless, we appreciate your help in disclosing it to us privately by
-emailing security@kloudless.com.
+emailing 360UI ~~security@kloudless.com~~.
 
 ## License
 
-The source code is licensed under the terms of the [MIT](LICENSE.MIT). Please
+The source code is licensed under the terms of the [MIT](LICENSE.MIT). ~~Please
 notice that our library has an optional dependency
 [@kloudless/file-picker-plupload-module](https://github.com/kloudless/file-picker-plupload-module.git),
 which is licensed under [AGPLv3](LICENSE.AGPL-3.0-only). If you want to build
@@ -1625,10 +1624,10 @@ the file upload module is excluded, and thus the Computer option and
 the Dropzone are disabled. If you want to make an AGPLv3 build with the
 @kloudless/file-picker-upload-module, please refer to the [Build](#build)
 section. If you want to modify the AGPLv3 licensed build without
-publishing your source code, please contact us for a commercial license.
+publishing your source code, please contact us for a commercial license.~~
 
 
 ## Support
 
-Feel free to contact us at support@kloudless.com with any feedback or
+Feel free to contact us at ~~support@kloudless.com~~ 360UI with any feedback or
 questions.
