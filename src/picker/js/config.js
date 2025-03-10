@@ -61,12 +61,10 @@ const loadLessStyleAndCompile = async (customStyleVars) => {
 };
 
 function get_query_variable(name) {
-  // eslint-disable-next-line no-param-reassign, no-useless-escape
-  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-  const regex = new RegExp(`[\\?&]${name}=([^&#]*)`);
-  const results = regex.exec(window.location.search);
-  return results === null ? ''
-    : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  const urlParams = new URLSearchParams(window.location.search);
+  const queryValue = urlParams.get(name);
+
+  return queryValue;
 }
 
 const isMIMEFormat = str => str.includes('/');
