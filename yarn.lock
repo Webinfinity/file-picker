@@ -1494,13 +1494,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kloudless/file-picker-plupload-module@https://github.com/Webinfinity/file-picker-plupload-module#ea5957be8c0c82816ab386fe9ff891d35ccd1fc2":
-  version: 1.0.2
-  resolution: "@kloudless/file-picker-plupload-module@https://github.com/Webinfinity/file-picker-plupload-module.git#commit=ea5957be8c0c82816ab386fe9ff891d35ccd1fc2"
-  checksum: 10c0/f8a8fff68346bda6cc25e9e8eeca5fb35a5678883355d345afdde9566ed7715556f599d5fd4d7eebb669f1bb81688c9c0a54e792ab855ae2ad8822e32ca25614
-  languageName: node
-  linkType: hard
-
 "@kloudless/file-picker@workspace:.":
   version: 0.0.0-use.local
   resolution: "@kloudless/file-picker@workspace:."
@@ -1509,7 +1502,6 @@ __metadata:
     "@babel/core": "npm:7.26.9"
     "@babel/preset-env": "npm:7.26.9"
     "@babel/preset-react": "npm:7.26.3"
-    "@kloudless/file-picker-plupload-module": "https://github.com/Webinfinity/file-picker-plupload-module#ea5957be8c0c82816ab386fe9ff891d35ccd1fc2"
     "@typescript-eslint/eslint-plugin": "npm:8.24.0"
     "@typescript-eslint/parser": "npm:8.24.0"
     autoprefixer: "npm:10.4.20"
