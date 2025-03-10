@@ -157,8 +157,8 @@ concerns.
 ### File Picker Modes
 
 The File Picker can be configured to either be a file [chooser](#chooser) to
-select files and folders from cloud storage or the local computer, or a file
-[saver](#saver) to export a specific file  to cloud storage.
+select files and folders from cloud storage. ~~or the local computer, or a file
+[saver](#saver) to export a specific file  to cloud storage.~~
 
 #### Chooser
 
@@ -596,12 +596,11 @@ File Picker JavaScript on the page.
   entries. Selecting multiple folders is not currently supported on mobile
   devices.
 
-
-* `computer` : boolean
+* ~~`computer` : boolean~~
 
   Chooser: _Optional (default: false)_
 
-  Dropzone: _Always true_
+  ~~Dropzone: _Always true_~~
 
   This option allows users to upload files directly from their computer.
   Note: If you plan to build and host the file-picker on your own, this option
@@ -1184,7 +1183,7 @@ var files = [{
 picker.save(files);
 ```
 
-### Dropzone
+### ~~Dropzone~~
 
 The Dropzone is a variety of the Chooser that allows users to drop files into
 it from their Computer rather than only click on it to launch the File Picker.
@@ -1193,7 +1192,7 @@ It opens in place when files are dropped into it.
 Note: If you plan to build and host the file-picker on your own, the Dropzone
 is only enabled for the [AGPL build](#build).
 
-#### Configuration
+#### ~~Configuration~~
 
 The configuration is similar to the Chooser's, but requires the `element` option
 to indicate where to display the Dropzone, as described below. In addition, the
@@ -1211,7 +1210,7 @@ configured as described for the Chooser.
   files in. The area's width will adjust automatically when the viewport
   width is lower than 600px.
 
-#### Methods
+#### ~~Methods~~
 
 * `filePicker.dropzone(options)`
 
@@ -1225,7 +1224,7 @@ configured as described for the Chooser.
 
   See `picker.close()` for more information.
 
-#### Example
+#### ~~Example~~
 
 [Visit our JSBin example of the Dropzone!](https://output.jsbin.com/tariday)
 
