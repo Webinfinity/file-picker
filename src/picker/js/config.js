@@ -120,7 +120,7 @@ Object.assign(config, {
     // logic only.
     rateLimit: 500,
   }),
-  base_url: (get_query_variable('baseUrl') || String(BASE_URL))
+  base_url: String(BASE_URL)
     .replace(/\/$/, ''),
   chunk_size: 5 * 1024 * 1024,
   computer: ko.observable(initFlavor === FLAVOR.dropzone),
