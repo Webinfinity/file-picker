@@ -13,7 +13,7 @@ phases:
   install:
     run-as: root
     runtime-versions:
-      nodejs: 14
+      nodejs: 18
     commands:
       - echo Prepare environment on `date`
       - chmod 755 /root
@@ -21,11 +21,13 @@ phases:
       - chown -R codebuild-user:codebuild-user /root/.config
       - chown -R codebuild-user:codebuild-user /root/.local
       - chown -R codebuild-user:codebuild-user /root/.npm
+      - mkdir /root/.yarn
+      - chown -R codebuild-user:codebuild-user /root/.yarn
   pre_build:
     commands:
       - echo Install dependencies on `date`
-      - npm ci
-      - npm run install-deps
+      - yarn install
+      - yarn run install-deps
   build:
     commands:
       - echo Build started on `date`

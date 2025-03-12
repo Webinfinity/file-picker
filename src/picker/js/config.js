@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import ko from 'knockout';
 import logger from 'loglevel';
-import compareVersions from 'compare-versions';
+import { compare as compareVersions } from 'compare-versions';
 // check babel.config.js for actual import path
 import config from 'picker-config';
 import localization from './localization';
@@ -61,12 +61,10 @@ const loadLessStyleAndCompile = async (customStyleVars) => {
 };
 
 function get_query_variable(name) {
-  // eslint-disable-next-line no-param-reassign, no-useless-escape
-  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-  const regex = new RegExp(`[\\?&]${name}=([^&#]*)`);
-  const results = regex.exec(window.location.search);
-  return results === null ? ''
-    : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  const urlParams = new URLSearchParams(window.location.search);
+  const queryValue = urlParams.get(name);
+
+  return queryValue;
 }
 
 const isMIMEFormat = str => str.includes('/');
@@ -122,7 +120,7 @@ Object.assign(config, {
     // logic only.
     rateLimit: 500,
   }),
-  base_url: (get_query_variable('baseUrl') || String(BASE_URL))
+  base_url: String(BASE_URL)
     .replace(/\/$/, ''),
   chunk_size: 5 * 1024 * 1024,
   computer: ko.observable(initFlavor === FLAVOR.dropzone),
@@ -600,7 +598,7 @@ config.localeOptions.subscribe((options) => {
  */
 config.isSupported = function isSupported(targetVersion) {
   const version = config.loader_version();
-  return compareVersions.compare(version, targetVersion, '>');
+  return compareVersions(version, targetVersion, '>');
 };
 
 // load the default locale

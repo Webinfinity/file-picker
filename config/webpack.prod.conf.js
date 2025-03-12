@@ -19,7 +19,7 @@ const scripts = {
 
 const prodConfig = merge(baseWebpackConfig, {
   mode: 'production',
-  devtool: '#source-map',
+  devtool: 'source-map',
   optimization: {
     minimize: false,
   },
@@ -56,12 +56,12 @@ module.exports = [
     },
     plugins: [
       // copy *.d.ts
-      new CopyWebpackPlugin([
-        {
+      new CopyWebpackPlugin({
+        patterns: [{
           from: path.resolve(srcPath, 'loader/js/interface.d.ts'),
           to: path.resolve(distPath, 'commonjs2/loader.d.ts'),
-        },
-      ]),
+        }],
+      }),
     ],
   }),
   // loader
@@ -98,7 +98,7 @@ module.exports = [
     },
     output: {
       path: path.resolve(distPath, './picker'),
-      filename: '[name].[hash].js',
+      filename: '[name].[fullhash].js',
       publicPath: './',
     },
     plugins: [

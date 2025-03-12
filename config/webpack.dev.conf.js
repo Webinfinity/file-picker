@@ -12,7 +12,7 @@ const devServerContentPath = path.resolve(__dirname, '../dev-server/');
 
 const devConfigBase = merge(baseWebpackConfig, {
   mode: 'development',
-  devtool: '#source-map',
+  devtool: 'source-map',
   output: {
     path: path.resolve(devServerContentPath, 'dist'),
     filename: '[name].js',
@@ -68,7 +68,9 @@ module.exports = [
         chunks: ['picker/picker', 'picker/template-hot-loader'],
       }),
       // Don't watch static json files to reduce CPU usage
-      new webpack.WatchIgnorePlugin([/bower_components\/cldr-data/]),
+      new webpack.WatchIgnorePlugin({
+        paths: [/bower_components\/cldr-data/]
+      }),
     ].concat(getPickerPlugins(
       path.join(devServerContentPath, 'dist/picker/'),
     )),

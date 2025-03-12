@@ -16,33 +16,18 @@ function getStyleLoaders(fileType, viewType) {
   const result = [];
   const miniCssExtractLoader = {
     loader: MiniCssExtractPlugin.loader,
-    options: { hmr: isDevelopment },
   };
   const postCssLoader = {
     loader: 'postcss-loader',
     options: {
-      plugins: isDevelopment ? [AutoPrefixer()] : [AutoPrefixer(), CssNano()],
+      postcssOptions: {
+        plugins: isDevelopment ? [AutoPrefixer()] : [AutoPrefixer(), CssNano()],
+      }
     },
   };
 
   const lessLoader = {
-      loader: 'less-loader',
-      options: {
-          plugins: [
-              {
-                  install: (lessObj, pluginManager) => {
-                      pluginManager.addPreProcessor({
-                          process: function (lessCode) {
-                              const pickerFolderUrl = process.env.PICKER_URL.replace('/index.html', '');
-                              return lessCode
-                                  .replace('__icons_base__', pickerFolderUrl + '/icon')
-                                  .replace('__fonts_base__', pickerFolderUrl + '/font');
-                          }
-                      }, 2000); // 2000 sets priority to come after less imports, per code comments
-                  }
-              }
-          ]
-      }
+    loader: 'less-loader',
   };
 
   if (viewType === 'picker') {
@@ -85,25 +70,31 @@ function getRules() {
       },
     },
     {
-      test: /\.png$/,
+      test: /\.(svg|png)$/,
       use: {
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          // TODO: enable optimizations 75 * 1024
+          limit: false,
+          esModule: false,
+          outputPath: 'icon',
         },
       },
+      type: 'javascript/auto',
     },
     {
       test: /\.woff2?$/,
       loader: 'url-loader',
       options: {
-        limit: 75 * 1024,
+        // TODO: enable optimizations 75 * 1024
+        limit: false,
         // Enable a CommonJS module syntax
         // eslint-disable-next-line max-len
         // REF: https://stackoverflow.com/questions/59070216/webpack-file-loader-outputs-object-module
         esModule: false,
         outputPath: 'font',
       },
+      type: 'javascript/auto',
     },
   ];
 
@@ -135,7 +126,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
+      filename: '[name].[fullhash].css',
     }),
   ],
   performance: {

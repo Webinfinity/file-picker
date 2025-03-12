@@ -52,35 +52,37 @@ module.exports = function getPickerPlugins(pickerDistPath) {
       mOxie: ['@kloudless/file-picker-plupload-module/moxie', 'mOxie'],
     }),
     // copy less.js
-    new CopyWebpackPlugin([
-      {
+    new CopyWebpackPlugin({
+      patterns: [{
         from: path.resolve(srcPath, '../node_modules/less/dist/less.min.js'),
         to: path.join(pickerDistPath, 'less.js'),
-      },
-    ]),
+      }],
+    }),
     // copy *.less
-    new CopyWebpackPlugin([
-      {
+    new CopyWebpackPlugin({
+      patterns: [{
         from: path.resolve(srcPath, 'picker/css/'),
         to: path.join(pickerDistPath, 'less/'),
-      },
-    ]),
-      // copy icons
-      new CopyWebpackPlugin([
-          {
-              from: path.resolve(srcPath, 'picker/icon/'),
-              to: path.resolve(pickerDistPath, 'icon/'),
-          },
-      ]),
-      // copy fonts
-      new CopyWebpackPlugin([
-          {
-              from: path.resolve(srcPath, 'picker/font/'),
-              to: path.resolve(pickerDistPath, 'font/'),
-          },
-      ]),
+      }],
+    }),
+    // copy icons
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: path.resolve(srcPath, 'picker/icon/'),
+        to: path.resolve(pickerDistPath, 'icon/'),
+      }],
+    }),
+    // copy fonts
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: path.resolve(srcPath, 'picker/font/'),
+        to: path.resolve(pickerDistPath, 'font/'),
+      }],
+    }),
     // copy localization and cldr data
-    new CopyWebpackPlugin(getLocalizationCopyData(pickerDistPath)),
+    new CopyWebpackPlugin({
+      patterns: getLocalizationCopyData(pickerDistPath)
+    }),
     /** Attach an id to the picker script tag
      * for util.getBaseUrl() to identify the script tag
      * This plugin must be put after all HtmlWebpackPlugins

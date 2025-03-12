@@ -36,7 +36,6 @@ app.use((req, res, next) => {
 
 const compiler = webpack(webpackConfigs);
 const middleware = webpackDevMiddleware(compiler, {
-  logTime: true,
   stats: 'minimal',
   publicPath: webpackConfigs[0].output.publicPath,
   //writeToDisk: true,
