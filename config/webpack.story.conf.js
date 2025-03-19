@@ -14,7 +14,7 @@ const { devServerPorts } = require('./common');
 
 const BASE_CONFIG = merge(baseWebpackConfig, {
   mode: 'development',
-  devtool: '#source-map',
+  devtool: 'source-map',
 });
 const SRC_PATH = path.resolve(__dirname, '../src');
 const LOADER_BASE_URL = `http://localhost:${devServerPorts.loader}/`;

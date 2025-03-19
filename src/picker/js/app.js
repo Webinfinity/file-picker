@@ -29,7 +29,6 @@ import 'normalize.css';
 import 'izitoast/dist/css/iziToast.css';
 import '../css/index.less';
 import routerHelper from './router-helper';
-import PluploadHelper from './plupload-helper';
 import iziToastHelper from './izitoast-helper';
 import { VIEW, FLAVOR, E2E_SELECTORS } from './constants';
 import { LOADER_FEATURES } from '../../constants';
@@ -85,8 +84,8 @@ const FilePicker = function () {
   logger.info('BUILD_LICENSE:  ', BUILD_LICENSE);
 
   if (BUILD_LICENSE === 'AGPL') {
-    // Plupload is inited successfully.
-    this.pluploadHelper = new PluploadHelper(this);
+    // Plupload is inited successfully. Not supported in 360UI atm
+    // this.pluploadHelper = new PluploadHelper(this);
   } else {
     // Plupload is excluded.
     this.pluploadHelper = null;
