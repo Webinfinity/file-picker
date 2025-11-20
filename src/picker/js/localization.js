@@ -100,8 +100,16 @@ const resolveCldrFolderName = locale => (isLocaleSupported(locale) ?
 const deepSpread = (target, ...sources) => {
   // it's not for general purposes but for spreading translation files
   const spread = (innerTarget, source, key) => {
+    if (key === '__proto__' || key === 'constructor') {
+      return;
+    }
+
     if (util.isObject(source)) {
       Object.keys(source).forEach((prop) => {
+        if (prop === '__proto__' || prop === 'constructor') {
+          return;
+        }
+        
         if (util.isObject(innerTarget[prop])) {
           spread(innerTarget[prop], source[prop], prop);
         } else if (source[prop] !== undefined) {
