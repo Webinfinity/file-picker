@@ -31,8 +31,11 @@ yarn install              # installs npm deps via Yarn 4 (PnP disabled, see .yar
 yarn run install-deps     # runs `bower install` for legacy bower deps (cldr-data etc.)
 
 # Dev server — required for any UI work
-KLOUDLESS_APP_ID=<id> yarn run dev          # https://localhost:3000, HMR; KLOUDLESS_APP_ID is mandatory
+KLOUDLESS_APP_ID=<id> yarn run dev          # http://localhost:3000, HMR; KLOUDLESS_APP_ID is mandatory
 BASE_URL=<url> KLOUDLESS_APP_ID=<id> yarn run dev   # point at a non-default API server
+
+# Quick start against the Webinfinity dev API (what CI bakes into the deployed build):
+BASE_URL=https://apigw.dev.webinfinity.com/filesync KLOUDLESS_APP_ID=<id> yarn run dev
 
 # Production build (writes to dist/{commonjs2,loader,picker,explorer} + test/dist)
 yarn run build
