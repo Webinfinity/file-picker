@@ -76,9 +76,11 @@ Set at build time; some are also settable at runtime via `Kloudless.filePicker.s
 
 ## CI / deployment
 
-- **AWS CodeBuild** — `buildspec.yml` deploys to dev (S3 `wi-content-dev`, CloudFront `E10ZRDMO2003HM`); `buildspec-live.yml` deploys to prod (S3 `wi-content`, CloudFront `E1GLMIBN5ABY2K`). Both `yarn install` + `yarn run install-deps` + `yarn run build`, then `aws s3 sync dist` + CloudFront invalidate.
-- Outputs are served from `cdn.{dev.}webinfinity.com/filesync/`.
-- Branch convention: feature branches only — never push directly to `staging-dev`, `master`, or `production`. The repo has multiple long-lived branches (`master`, `production`, `staging-dev`) that get periodically merged.
+**Deploys are manual** via AWS CodeBuild (us-east-1) — push to a branch does *not* trigger anything. Open the `File-picker-{dev,sandbox,live}` project in the console and click **Start build**; the project's hard-coded `source_version` pulls the latest commit from the matching branch (`staging-dev` / `staging-sandbox` / `production`).
+
+Full details — env table, where to watch logs, why TeamCity is gone, how to restore automation — in [docs/deployment.md](docs/deployment.md).
+
+Branch convention: feature branches only — never push directly to `staging-dev`, `staging-sandbox`, `master`, or `production`.
 
 ## Codebase quirks worth knowing
 
