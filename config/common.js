@@ -19,10 +19,10 @@ module.exports = {
     new RegExp('(bower_components)'),
     new RegExp(
       // eslint-disable-next-line max-len
-      'node_modules/@kloudless/file-picker-plupload-module/(?!(jquery.ui.plupload))',
+      'node_modules[\\\\/]@kloudless[\\\\/]file-picker-plupload-module[\\\\/](?!(jquery.ui.plupload))',
     ),
-    new RegExp('node_modules/(?!(@kloudless/file-picker-plupload-module))'),
-    new RegExp('lib/(?!(jquery.ajax-retry))'),
+    new RegExp('node_modules[\\\\/](?!(@kloudless[\\\\/]file-picker-plupload-module))'),
+    new RegExp('lib[\\\\/](?!(jquery.ajax-retry))'),
   ],
   /**
    * A list of paths to resolve module imports
