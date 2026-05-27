@@ -49,11 +49,11 @@ function getRules() {
       use: getStyleLoaders('css', 'picker'),
     },
     {
-      test: /loader\/css\/.*\.less$/,
+      test: /loader[\\/]css[\\/].*\.less$/,
       use: getStyleLoaders('less', 'loader'),
     },
     {
-      test: /picker\/css\/.*\.less$/,
+      test: /picker[\\/]css[\\/].*\.less$/,
       use: getStyleLoaders('less', 'picker'),
     },
     {
