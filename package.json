@@ -110,5 +110,8 @@
     "webpack-hot-middleware": "2.26.1",
     "webpack-merge": "6.0.1"
   },
+  "resolutions": {
+    "serialize-javascript": "^7.0.5"
+  },
   "packageManager": "yarn@4.6.0"
 }
