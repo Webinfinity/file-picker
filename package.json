@@ -63,7 +63,7 @@
     "bower": "1.8.14",
     "cldr-data-downloader": "1.1.0",
     "compare-versions": "6.1.1",
-    "copy-webpack-plugin": "12.0.2",
+    "copy-webpack-plugin": "^14.0.0",
     "core-js": "3.48.0",
     "css-loader": "7.1.4",
     "cssnano": "7.1.2",
@@ -75,7 +75,7 @@
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.5",
     "expose-loader": "5.0.1",
-    "express": "4.22.1",
+    "express": "^5.2.1",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.6.6",
     "izitoast": "1.4.0",
@@ -109,12 +109,6 @@
     "webpack-dev-middleware": "7.4.5",
     "webpack-hot-middleware": "2.26.1",
     "webpack-merge": "6.0.1"
-  },
-  "resolutions": {
-    "serialize-javascript": "^7.0.5",
-    "qs": "6.15.2",
-    "tar": "7.5.16",
-    "form-data": "4.0.6"
   },
   "packageManager": "yarn@4.6.0"
 }
