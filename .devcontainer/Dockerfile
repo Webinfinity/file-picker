@@ -3,7 +3,7 @@
 # [Choice]
 # https://hub.docker.com/r/microsoft/devcontainers-typescript-node
 # 22 / 22-bookworm, 20 / 20-bookworm, 18 / 18-bookworm, 20-bullseye, 18-bullseye
-ARG VARIANT="18"
+ARG VARIANT="20"
 FROM mcr.microsoft.com/devcontainers/typescript-node:${VARIANT}
 
 # [Optional] Uncomment this section to install additional OS packages.
