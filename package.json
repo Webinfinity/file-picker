@@ -81,7 +81,7 @@
     "izitoast": "1.4.0",
     "jquery": "3.7.1",
     "knockout": "^3.5.1",
-    "less": "4.5.1",
+    "less": "4.9.1",
     "less-loader": "12.3.1",
     "lodash.debounce": "4.0.8",
     "material-icons-font": "2.1.0",
