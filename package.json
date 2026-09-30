@@ -40,7 +40,7 @@
     "prepack": "bash generate_npmignore.sh && npm ci && yarn run build",
     "postpack": "rm -f .npmignore",
     "dist-test": "node ./test/dist-test-server.js",
-    "test:ts": "eslint --config .eslintrc-ts.js --ext .ts . && tsc test/ts/*.ts --noEmit && echo '✅  Passed type tests.'",
+    "test:ts": "eslint --config .eslintrc-ts.js --ext .ts . && tsc test/ts/*.ts --noEmit && echo '\u2705  Passed type tests.'",
     "stylelint": "stylelint ./src/**/*.less --syntax less",
     "stylelint:fix": "yarn run stylelint -- --fix",
     "lint": "eslint ."
@@ -110,5 +110,10 @@
     "webpack-hot-middleware": "2.26.1",
     "webpack-merge": "6.0.1"
   },
-  "packageManager": "yarn@4.6.0"
+  "packageManager": "yarn@4.6.0",
+  "resolutions": {
+    "morgan": ">=1.12.0",
+    "@humanfs/node": ">=0.16.8",
+    "postcss-selector-parser": ">=7.1.3"
+  }
 }
