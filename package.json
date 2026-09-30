@@ -110,8 +110,5 @@
     "webpack-hot-middleware": "2.26.1",
     "webpack-merge": "6.0.1"
   },
-  "packageManager": "yarn@4.6.0",
-  "resolutions": {
-    "moment": ">=2.31.0 <3.0.0"
-  }
+  "packageManager": "yarn@4.6.0"
 }
