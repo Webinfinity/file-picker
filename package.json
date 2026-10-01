@@ -40,7 +40,7 @@
     "prepack": "bash generate_npmignore.sh && npm ci && yarn run build",
     "postpack": "rm -f .npmignore",
     "dist-test": "node ./test/dist-test-server.js",
-    "test:ts": "eslint --config .eslintrc-ts.js --ext .ts . && tsc test/ts/*.ts --noEmit && echo '✅  Passed type tests.'",
+    "test:ts": "eslint --config .eslintrc-ts.js --ext .ts . && tsc test/ts/*.ts --noEmit && echo '\u2705  Passed type tests.'",
     "stylelint": "stylelint ./src/**/*.less --syntax less",
     "stylelint:fix": "yarn run stylelint -- --fix",
     "lint": "eslint ."
